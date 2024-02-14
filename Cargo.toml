@@ -1,0 +1,23 @@
+[package]
+name = "scc-package-search"
+version = "4.0.0"
+authors = ["OpenAPI Generator team and contributors", "Santiago Zarate <santiago.zarate@suse.com>"]
+description = "An API to find what SUSE products a given package is contained in."
+license = "GPL-2.0-or-later"
+edition = "2021"
+
+
+[[bin]]
+name = "scc-package-search"
+path = "src/main.rs"
+
+[dependencies]
+serde = "^1.0"
+serde_derive = "^1.0"
+serde_json = "^1.0"
+tokio = {version = "1.36.0", features = ["full"]}
+url = "^2.2"
+uuid = { version = "^1.0", features = ["serde", "v4"] }
+[dependencies.reqwest]
+version = "^0.11"
+features = ["json", "multipart"]

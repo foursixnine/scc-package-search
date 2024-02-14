@@ -1,0 +1,122 @@
+swagger: '2.0'
+info:
+  version: '4.0.0'
+  title: 'SUSE Package Search'
+  description: 'An API to find what products that packages are contained in.'
+  contact:
+    name: 'SUSE Customer Center team'
+    url: https://github.com/SUSE/connect/issues
+  license:
+    name: 'MIT'
+tags:
+  - name: packages
+    description: 'package search operations'
+basePath: /api/package_search
+consumes:
+  - 'application/json'
+produces:
+  - 'application/json'
+paths:
+  /products:
+    get:
+      summary: 'A list of base products that can be searched'
+      description: 'Warning: This api endpoint is subject to change'
+      tags:
+      - packages
+      parameters:
+      - name: Accept
+        in: header
+        schema:
+          type: string
+        required: true
+        default: 'application/vnd.scc.suse.com.v4+json'
+      responses:
+        200:
+          description: 'A list of base products'
+          schema:
+            type: 'object'
+            properties:
+              data:
+                type: 'array'
+                items:
+                  $ref: '#/definitions/Product'
+  /packages:
+    get:
+      summary: 'Find sub packages of a base product'
+      description: 'Warning: This api endpoint is subject to change'
+      tags:
+      - packages
+      parameters:
+      - name: product_id
+        in: query
+        description: 'Id of the base product'
+        required: true
+        type: 'string'
+      - name: query
+        in: query
+        description: 'String to query'
+        type: 'string'
+        required: false
+      - name: Accept
+        in: header
+        schema:
+          type: string
+        required: true
+        default: 'application/vnd.scc.suse.com.v4+json'
+      responses:
+        200:
+          description: 'A list of packages'
+          schema:
+            type: 'object'
+            properties:
+              data:
+                type: 'array'
+                items:
+                  $ref: '#/definitions/Package'
+definitions:
+  Package:
+    type: 'object'
+    properties:
+      id:
+        type: 'integer'
+        example: 2182256
+      name:
+        type: 'string'
+        example: 'ruby'
+      arch:
+        type: 'string'
+        example: 'x86_64'
+      version:
+        type: 'string'
+        example: '2.5.0'
+      release:
+        type: 'string'
+        example: '1.0.0'
+      products:
+        type: 'array'
+        items:
+          $ref: '#/definitions/Product'
+  Product:
+    type: 'object'
+    properties:
+      id:
+        type: 'integer'
+        example: 1576
+      name:
+        type: 'string'
+        example: 'Basesystem Module'
+      identifier:
+        type: 'string'
+        example: 'sle-module-basesystem/15/x86_64'
+      type:
+        type: 'string'
+        example: 'module'
+      free:
+        type: 'boolean'
+        example: true
+      edition:
+        type: 'string'
+        example: '15'
+      architecture:
+        type: 'string'
+        example: 'x86_64'
